@@ -33,19 +33,19 @@ const calculator = () => {
   }
   function operate(operator, num) {
     switch (operator) {
-      case "add":
+      case "+":
         add(num);
         break;
-      case "subtract":
+      case "-":
         subtract(num);
         break;
-      case "multiply":
+      case "*":
         multiply(num);
         break;
-      case "divide":
+      case "/":
         divide(num);
         break;
-      case "modulo":
+      case "%":
         modulo(num);
         break;
       default:
@@ -60,6 +60,63 @@ const calculator = () => {
   return { operate, getResult };
 };
 
+const calcDisplay = () => {
+  function clickOperators(elementInnerHTML) {
+    //if theres somethin in upper screen
+    const valueOnLowerScreen = document.querySelector(".lowerScreen").innerHTML;
+    if (!!document.querySelector(".upperScreen").innerHTML.trim()) {
+      const operationOnCalcScreen = document
+        .querySelector(".upperScreen")
+        .innerHTML.slice(-1);
+      const valueToUse = parseInt(valueOnLowerScreen);
+      calc.operate(operationOnCalcScreen, valueToUse);
+      const valueToShow = calc.getResult();
+      document.querySelector(
+        ".upperScreen"
+      ).innerHTML = `${valueToShow}${elementInnerHTML}`;
+      console.log(calc.getResult());
+      document.querySelector(".lowerScreen").innerHTML = "0";
+    } else {
+      calc.operate(
+        "+",
+        parseInt(document.querySelector(".lowerScreen").innerHTML)
+      );
+      document.querySelector(
+        ".upperScreen"
+      ).innerHTML = `${valueOnLowerScreen}${elementInnerHTML}`;
+      document.querySelector(".lowerScreen").innerHTML = "0";
+    }
+  }
+  function clickEquals() {
+    const operationOnCalcScreen = document
+      .querySelector(".upperScreen")
+      .innerHTML.slice(-1);
+    const valueToUse = parseInt(
+      document.querySelector(".lowerScreen").innerHTML
+    );
+    calc.operate(operationOnCalcScreen, valueToUse);
+    document.querySelector(".upperScreen").innerHTML = "";
+    document.querySelector(".lowerScreen").innerHTML = `${calc.getResult()}`;
+  }
+  function clickNumbers(buttonId) {
+    const currentNumberOnScreen =
+      document.querySelector(".lowerScreen").innerHTML;
+    let wantedNumberOnScreen;
+    if (
+      document.querySelector(".lowerScreen").innerHTML.length == 1 &&
+      document.querySelector(".lowerScreen").innerHTML == "0"
+    ) {
+      wantedNumberOnScreen = `${buttonId}`;
+      hasNumberBeenClicked = true;
+    } else {
+      wantedNumberOnScreen = `${currentNumberOnScreen}${buttonId}`;
+    }
+
+    document.querySelector(".lowerScreen").innerHTML = wantedNumberOnScreen;
+  }
+  return { clickOperators, clickEquals, clickNumbers };
+};
+
 const calc = calculator();
 document.querySelector(".lowerScreen").innerHTML = calc.getResult();
 
@@ -68,11 +125,12 @@ for (let i = 0; i < 10; i++) {
   button.classList.add("numButton");
   button.innerHTML = i;
   button.addEventListener("click", (e) => {
-    return console.log(e.target.innerHTML);
+    const displayNumber = calcDisplay();
+    displayNumber.clickNumbers(e.target.innerHTML);
   });
   document.querySelector(".buttons").append(button);
 }
-//bio sam lijen pa oponasam enum da uz operacije dodam i neki id koji cu iskoristit posle
+// replicating enum with key value pairs, so i can use them later
 const operators = {
   add: "+",
   subtract: "-",
@@ -88,12 +146,11 @@ Object.entries(operators).forEach(([key, operator]) => {
   button.id = key;
   button.innerHTML = operator;
   button.addEventListener("click", (e) => {
+    const display = calcDisplay();
     if (e.target.id == "equals") {
-      // izracunaj i stavi u donji dio ekrana veliki rezultat
-      console.log("jes " + e.target.id);
+      display.clickEquals();
     } else {
-      // izracunaj i stavi u gornji dio ekrana sa operacijom
-      console.log("nope " + e.target.id);
+      display.clickOperators(e.target.innerHTML);
     }
   });
   document.querySelector(".buttons").append(button);
