@@ -46,6 +46,7 @@ const calculator = () => {
       case "%":
         modulo();
         break;
+      //in case of no selected operator (beggining):
       default:
         result = parseInt(num1);
         break;
@@ -74,6 +75,7 @@ const calculator = () => {
 function displayButtons(calculatorInstance) {
   //initializing calculator localy inside displayButtons
   calc = calculatorInstance();
+  // adding number buttons
   for (let i = 0; i < 10; i++) {
     const button = document.createElement("button");
     button.classList.add("numButton");
@@ -83,7 +85,6 @@ function displayButtons(calculatorInstance) {
     });
     document.querySelector(".buttons").append(button);
   }
-  //replicating enum like this:
   const operators = {
     add: "+",
     subtract: "-",
@@ -92,13 +93,13 @@ function displayButtons(calculatorInstance) {
     modulo: "%",
     equals: "=",
   };
-
+  // Adding operator buttons
   Object.entries(operators).forEach(([key, operator]) => {
     const button = document.createElement("button");
     button.classList.add("opButton");
     button.id = key;
     button.innerHTML = operator;
-    button.addEventListener("click", (e) => {
+    button.addEventListener("click", () => {
       if (key === "equals") {
         calcDisplay().clickEquals();
       } else {
@@ -111,26 +112,26 @@ function displayButtons(calculatorInstance) {
 }
 //Calling displayButtons and  passing calculator function as argument to initialize local instance of calculator
 displayButtons(calculator);
-//function for the calc screen
+//function for the calculator screen
 const calcDisplay = () => {
   //selecting elements
-  const upper = document.querySelector(".upperScreen");
-  const lower = document.querySelector(".lowerScreen");
+  const upperCalcScreen = document.querySelector(".upperScreen");
+  const lowerCalcScreen = document.querySelector(".lowerScreen");
 
   //   handling events
   function clickNumber(numberInfo) {
     calc.assignNum1(numberInfo);
-    lower.innerHTML = calc.getNum();
+    lowerCalcScreen.innerHTML = calc.getNum();
   }
   function clickOperation(operationInfo) {
     calc.assignOperation(operationInfo);
-    upper.innerHTML = `${calc.getResult()}${calc.getOperation()}`;
-    lower.innerHTML = `${calc.getNum()}`;
+    upperCalcScreen.innerHTML = `${calc.getResult()}${calc.getOperation()}`;
+    lowerCalcScreen.innerHTML = `${calc.getNum()}`;
   }
   function clickEquals() {
     calc.assignOperation(calc.getOperation());
-    upper.innerHTML = "";
-    lower.innerHTML = `${calc.getResult()}`;
+    upperCalcScreen.innerHTML = "";
+    lowerCalcScreen.innerHTML = `${calc.getResult()}`;
   }
   return { clickEquals, clickNumber, clickOperation };
 };
