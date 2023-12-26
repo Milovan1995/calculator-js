@@ -29,7 +29,7 @@ const calculator = () => {
         return divide();
       case "%":
         return modulo();
-      //when the first operation hasn't been assigned (at start)
+      //when the operation hasn't been assigned (at start)
       default:
         result = parseInt(num1);
         break;
@@ -49,15 +49,12 @@ const calculator = () => {
   return { assignOperation, getResult, getOperation, getNum, assignNum1 };
 };
 /////////////////////////////////////////////////////////
-//function for initializing a calculator
-const startCalculator = (calculatorInstance) => {
-  //initializing necessary closures and assigning them to local scope
+const initCalculator = (calculatorInstance) => {
   calc = calculatorInstance();
   screenMethods = onButtonClicks(calc);
   displayButtons(screenMethods);
 };
 ////////////////////////////////////////////////
-//function for displaying number and operator buttons
 const displayButtons = (calcDisplayInstance) => {
   const operators = {
     add: "+",
@@ -118,4 +115,4 @@ const onButtonClicks = (calc) => {
 };
 /////////////////////////////////////
 // RUN THE CALCULATOR
-startCalculator(calculator);
+initCalculator(calculator);
