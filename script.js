@@ -70,10 +70,10 @@ const calculator = () => {
   }
   return { assignOperation, getResult, getOperation, getNum, assignNum1 };
 };
-//initializing calculator so i can use its variables
-const calc = calculator();
 
-function displayButtons() {
+function displayButtons(calculatorInstance) {
+  //initializing calculator localy inside displayButtons
+  calc = calculatorInstance();
   for (let i = 0; i < 10; i++) {
     const button = document.createElement("button");
     button.classList.add("numButton");
@@ -109,8 +109,8 @@ function displayButtons() {
   });
   document.querySelector(".lowerScreen").innerHTML = calc.getNum();
 }
-displayButtons();
-
+//Calling displayButtons and  passing calculator function as argument to initialize local instance of calculator
+displayButtons(calculator);
 //function for the calc screen
 const calcDisplay = () => {
   //selecting elements
