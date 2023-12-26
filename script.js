@@ -1,157 +1,134 @@
-//varijabla const calculator - asignujem anonimnu fju
+//calc function
 const calculator = () => {
+  let num1 = "0";
   let result = 0;
+  let operation;
 
-  function add(num) {
-    return (result += num);
+  function add() {
+    result += parseInt(num1);
   }
-
-  function subtract(num) {
-    return (result -= num);
+  function subtract() {
+    result -= parseInt(num1);
   }
-
-  function multiply(num) {
-    return (result *= num);
-  }
-
-  function divide(num) {
-    if (num !== 0) {
-      return (result /= num);
+  function divide() {
+    if (num1 == 0) {
+      console.error("can't divide by 0");
+      alert("Nope, can't divide by 0");
     } else {
-      console.error("Cannot divide by zero");
-      return NaN;
+      result /= parseInt(num1);
     }
   }
-
-  function modulo(num) {
-    if (num !== 0) {
-      return (result %= num);
-    } else {
-      console.error("Cannot calculate modulo by zero");
-      return NaN;
-    }
+  function multiply() {
+    result *= parseInt(num1);
   }
-  function operate(operator, num) {
-    switch (operator) {
+  function modulo() {
+    if (result === 0) {
+      console.error("Cant calc modulo with 0");
+      alert("Can't calculate modulo with 0");
+    }
+    result %= parseInt(num1);
+  }
+  function operate(chosenOperation) {
+    switch (chosenOperation) {
       case "+":
-        add(num);
+        add();
         break;
       case "-":
-        subtract(num);
+        subtract();
         break;
       case "*":
-        multiply(num);
+        multiply();
         break;
       case "/":
-        divide(num);
+        divide();
         break;
       case "%":
-        modulo(num);
+        modulo();
         break;
       default:
-        console.error("Unknown operator");
+        result = parseInt(num1);
+        break;
     }
   }
-
+  function assignNum1(newNum) {
+    num1 = num1 === "0" ? `${newNum}` : `${num1}${newNum}`;
+  }
+  function assignOperation(newOperation) {
+    operate(operation);
+    operation = newOperation;
+    num1 = "0";
+  }
   function getResult() {
     return result;
   }
-
-  return { operate, getResult };
-};
-
-const calcDisplay = () => {
-  function clickOperators(elementInnerHTML) {
-    //if theres somethin in upper screen
-    const valueOnLowerScreen = document.querySelector(".lowerScreen").innerHTML;
-    if (!!document.querySelector(".upperScreen").innerHTML.trim()) {
-      const operationOnCalcScreen = document
-        .querySelector(".upperScreen")
-        .innerHTML.slice(-1);
-      const valueToUse = parseInt(valueOnLowerScreen);
-      calc.operate(operationOnCalcScreen, valueToUse);
-      const valueToShow = calc.getResult();
-      document.querySelector(
-        ".upperScreen"
-      ).innerHTML = `${valueToShow}${elementInnerHTML}`;
-      console.log(calc.getResult());
-      document.querySelector(".lowerScreen").innerHTML = "0";
-    } else {
-      calc.operate(
-        "+",
-        parseInt(document.querySelector(".lowerScreen").innerHTML)
-      );
-      document.querySelector(
-        ".upperScreen"
-      ).innerHTML = `${valueOnLowerScreen}${elementInnerHTML}`;
-      document.querySelector(".lowerScreen").innerHTML = "0";
-    }
+  function getOperation() {
+    return operation;
   }
-  function clickEquals() {
-    const operationOnCalcScreen = document
-      .querySelector(".upperScreen")
-      .innerHTML.slice(-1);
-    const valueToUse = parseInt(
-      document.querySelector(".lowerScreen").innerHTML
-    );
-    calc.operate(operationOnCalcScreen, valueToUse);
-    document.querySelector(".upperScreen").innerHTML = "";
-    document.querySelector(".lowerScreen").innerHTML = `${calc.getResult()}`;
+  function getNum() {
+    return num1;
   }
-  function clickNumbers(buttonId) {
-    const currentNumberOnScreen =
-      document.querySelector(".lowerScreen").innerHTML;
-    let wantedNumberOnScreen;
-    if (
-      document.querySelector(".lowerScreen").innerHTML.length == 1 &&
-      document.querySelector(".lowerScreen").innerHTML == "0"
-    ) {
-      wantedNumberOnScreen = `${buttonId}`;
-      hasNumberBeenClicked = true;
-    } else {
-      wantedNumberOnScreen = `${currentNumberOnScreen}${buttonId}`;
-    }
-
-    document.querySelector(".lowerScreen").innerHTML = wantedNumberOnScreen;
-  }
-  return { clickOperators, clickEquals, clickNumbers };
+  return { assignOperation, getResult, getOperation, getNum, assignNum1 };
 };
 
 const calc = calculator();
-document.querySelector(".lowerScreen").innerHTML = calc.getResult();
 
-for (let i = 0; i < 10; i++) {
-  const button = document.createElement("button");
-  button.classList.add("numButton");
-  button.innerHTML = i;
-  button.addEventListener("click", (e) => {
-    const displayNumber = calcDisplay();
-    displayNumber.clickNumbers(e.target.innerHTML);
+function displayButtons() {
+  for (let i = 0; i < 10; i++) {
+    const button = document.createElement("button");
+    button.classList.add("numButton");
+    button.innerHTML = i;
+    button.addEventListener("click", (e) => {
+      calcDisplay().clickNumber(e.target.innerHTML);
+    });
+    document.querySelector(".buttons").append(button);
+  }
+  // replicating enum with key value pairs, so i can use them later
+  const operators = {
+    add: "+",
+    subtract: "-",
+    multiply: "*",
+    divide: "/",
+    modulo: "%",
+    equals: "=",
+  };
+
+  Object.entries(operators).forEach(([key, operator]) => {
+    const button = document.createElement("button");
+    button.classList.add("opButton");
+    button.id = key;
+    button.innerHTML = operator;
+    button.addEventListener("click", (e) => {
+      if (e.target.id == "equals") {
+        calcDisplay().clickEquals();
+      } else {
+        calcDisplay().clickOperation(e.target.innerHTML);
+      }
+    });
+    document.querySelector(".buttons").append(button);
   });
-  document.querySelector(".buttons").append(button);
+  document.querySelector(".lowerScreen").innerHTML = calc.getNum();
 }
-// replicating enum with key value pairs, so i can use them later
-const operators = {
-  add: "+",
-  subtract: "-",
-  multiply: "*",
-  divide: "/",
-  modulo: "%",
-  equals: "=",
-};
+displayButtons();
 
-Object.entries(operators).forEach(([key, operator]) => {
-  const button = document.createElement("button");
-  button.classList.add("opButton");
-  button.id = key;
-  button.innerHTML = operator;
-  button.addEventListener("click", (e) => {
-    const display = calcDisplay();
-    if (e.target.id == "equals") {
-      display.clickEquals();
-    } else {
-      display.clickOperators(e.target.innerHTML);
-    }
-  });
-  document.querySelector(".buttons").append(button);
-});
+const calcDisplay = () => {
+  //selecting elements
+  const upper = document.querySelector(".upperScreen");
+  const lower = document.querySelector(".lowerScreen");
+
+  //   handling events
+  function clickNumber(numberInfo) {
+    calc.assignNum1(numberInfo);
+    lower.innerHTML = calc.getNum();
+  }
+  function clickOperation(operationInfo) {
+    calc.assignOperation(operationInfo);
+    upper.innerHTML = `${calc.getResult()}${calc.getOperation()}`;
+    lower.innerHTML = `${calc.getNum()}`;
+  }
+  function clickEquals() {
+    calc.assignOperation(calc.getOperation());
+    upper.innerHTML = "";
+    lower.innerHTML = `${calc.getResult()}`;
+  }
+  return { clickEquals, clickNumber, clickOperation };
+};
