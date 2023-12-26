@@ -25,8 +25,9 @@ const calculator = () => {
     if (result === 0) {
       console.error("Cant calc modulo with 0");
       alert("Can't calculate modulo with 0");
+    } else {
+      result %= parseInt(num1);
     }
-    result %= parseInt(num1);
   }
   function operate(chosenOperation) {
     switch (chosenOperation) {
@@ -82,7 +83,7 @@ function displayButtons() {
     });
     document.querySelector(".buttons").append(button);
   }
-  // replicating enum
+  //replicating enum like this:
   const operators = {
     add: "+",
     subtract: "-",
@@ -110,7 +111,7 @@ function displayButtons() {
 }
 displayButtons();
 
-//function for the calc display
+//function for the calc screen
 const calcDisplay = () => {
   //selecting elements
   const upper = document.querySelector(".upperScreen");
