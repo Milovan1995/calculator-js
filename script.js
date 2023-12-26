@@ -69,7 +69,7 @@ const calculator = () => {
   }
   return { assignOperation, getResult, getOperation, getNum, assignNum1 };
 };
-
+//initializing calculator so i can use its variables
 const calc = calculator();
 
 function displayButtons() {
@@ -82,7 +82,7 @@ function displayButtons() {
     });
     document.querySelector(".buttons").append(button);
   }
-  // replicating enum with key value pairs, so i can use them later
+  // replicating enum
   const operators = {
     add: "+",
     subtract: "-",
@@ -101,7 +101,7 @@ function displayButtons() {
       if (e.target.id == "equals") {
         calcDisplay().clickEquals();
       } else {
-        calcDisplay().clickOperation(e.target.innerHTML);
+        calcDisplay().clickOperation(operator);
       }
     });
     document.querySelector(".buttons").append(button);
@@ -110,6 +110,7 @@ function displayButtons() {
 }
 displayButtons();
 
+//function for the calc display
 const calcDisplay = () => {
   //selecting elements
   const upper = document.querySelector(".upperScreen");
