@@ -77,8 +77,8 @@ function displayButtons() {
     const button = document.createElement("button");
     button.classList.add("numButton");
     button.innerHTML = i;
-    button.addEventListener("click", (e) => {
-      calcDisplay().clickNumber(e.target.innerHTML);
+    button.addEventListener("click", () => {
+      calcDisplay().clickNumber(i);
     });
     document.querySelector(".buttons").append(button);
   }
@@ -98,7 +98,7 @@ function displayButtons() {
     button.id = key;
     button.innerHTML = operator;
     button.addEventListener("click", (e) => {
-      if (e.target.id == "equals") {
+      if (key === "equals") {
         calcDisplay().clickEquals();
       } else {
         calcDisplay().clickOperation(operator);
