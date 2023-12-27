@@ -66,6 +66,74 @@ class Calculator {
     return this.num1;
   }
 }
+////////////////////////
+
+// Calculator.prototype.add = function () {
+//     this.result += parseInt(this.num1);
+//   };
+
+//   Calculator.prototype.subtract = function () {
+//     this.result -= parseInt(this.num1);
+//   };
+
+//   Calculator.prototype.multiply = function () {
+//     this.result *= parseInt(this.num1);
+//   };
+
+//   Calculator.prototype.divide = function () {
+//     this.result =
+//       this.num1 == 0
+//         ? alert("Can't divide by 0")
+//         : this.result / parseInt(this.num1);
+//   };
+
+//   Calculator.prototype.modulo = function () {
+//     this.result =
+//       this.num1 == 0
+//         ? alert("Can't calculate modulo with 0")
+//         : this.result % parseInt(this.num1);
+//   };
+
+//   Calculator.prototype.operate = function (chosenOperation) {
+//     switch (chosenOperation) {
+//       case "+":
+//         return this.add();
+//       case "-":
+//         return this.subtract();
+//       case "*":
+//         return this.multiply();
+//       case "/":
+//         return this.divide();
+//       case "%":
+//         return this.modulo();
+//       // when the operation hasn't been assigned (at start)
+//       default:
+//         this.result = parseInt(this.num1);
+//         break;
+//     }
+//   };
+
+//   Calculator.prototype.assignNum1 = function (newNum) {
+//     this.num1 = this.num1 === "0" ? `${newNum}` : `${this.num1}${newNum}`;
+//   };
+
+//   Calculator.prototype.assignOperation = function (newOperation) {
+//     this.operate(this.operation);
+//     this.operation = newOperation;
+//     this.num1 = "0";
+//   };
+
+//   Calculator.prototype.getResult = function () {
+//     return this.result;
+//   };
+
+//   Calculator.prototype.getOperation = function () {
+//     return this.operation;
+//   };
+
+//   Calculator.prototype.getNum = function () {
+//     return this.num1;
+//   };
 //////////////
 const calc = new Calculator();
 ////////////////////
