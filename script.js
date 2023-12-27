@@ -1,3 +1,7 @@
+//selecting elements
+const upperCalcScreen = document.querySelector(".upperScreen");
+const lowerCalcScreen = document.querySelector(".lowerScreen");
+
 ////////////////////////////////////
 //calc function
 const calculator = () => {
@@ -49,13 +53,14 @@ const calculator = () => {
   return { assignOperation, getResult, getOperation, getNum, assignNum1 };
 };
 /////////////////////////////////////////////////////////
-const initCalculator = (calculatorInstance) => {
-  calc = calculatorInstance();
-  screenMethods = onButtonClicks(calc);
-  displayButtons(screenMethods);
+const calc = calculator();
+//////////////////////////////////////////////////////////
+const initCalculator = () => {
+  const buttonMethods = onButtonClicks();
+  displayButtons(buttonMethods);
 };
 ////////////////////////////////////////////////
-const displayButtons = (calcDisplayInstance) => {
+const displayButtons = (buttonMethods) => {
   const operators = {
     add: "+",
     subtract: "-",
@@ -69,7 +74,7 @@ const displayButtons = (calcDisplayInstance) => {
     button.classList.add("numButton");
     button.innerHTML = i;
     button.addEventListener("click", () => {
-      calcDisplayInstance.clickNumber(i);
+      buttonMethods.clickNumber(i);
     });
     document.querySelector(".buttons").append(button);
   }
@@ -80,23 +85,18 @@ const displayButtons = (calcDisplayInstance) => {
     button.innerHTML = operator;
     button.addEventListener("click", () => {
       if (key === "equals") {
-        calcDisplayInstance.clickEquals();
+        buttonMethods.clickEquals();
       } else {
-        calcDisplayInstance.clickOperation(operator);
+        buttonMethods.clickOperation(operator);
       }
     });
     document.querySelector(".buttons").append(button);
   });
-  document.querySelector(".lowerScreen").innerHTML = calc.getNum();
+  lowerCalcScreen.innerHTML = calc.getNum();
 };
 /////////////////////////////////////////////
 //function for the calculator screen
-const onButtonClicks = (calc) => {
-  //selecting elements
-  const upperCalcScreen = document.querySelector(".upperScreen");
-  const lowerCalcScreen = document.querySelector(".lowerScreen");
-
-  //Handling possible click events
+const onButtonClicks = () => {
   const clickNumber = (numberInfo) => {
     calc.assignNum1(numberInfo);
     lowerCalcScreen.innerHTML = calc.getNum();
@@ -115,4 +115,4 @@ const onButtonClicks = (calc) => {
 };
 /////////////////////////////////////
 // RUN THE CALCULATOR
-initCalculator(calculator);
+initCalculator();
