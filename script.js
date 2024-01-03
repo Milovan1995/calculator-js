@@ -1,6 +1,7 @@
 //selecting elements
 const upperCalcScreen = document.querySelector(".upperScreen");
 const lowerCalcScreen = document.querySelector(".lowerScreen");
+const calcKeyboard = document.querySelector(".buttons");
 
 ////////////////////////////////////
 //calc function
@@ -76,7 +77,7 @@ const displayButtons = (buttonMethods) => {
     button.addEventListener("click", () => {
       buttonMethods.clickNumber(i);
     });
-    document.querySelector(".buttons").append(button);
+    calcKeyboard.append(button);
   }
   Object.entries(operators).forEach(([key, operator]) => {
     const button = document.createElement("button");
@@ -90,7 +91,7 @@ const displayButtons = (buttonMethods) => {
         buttonMethods.clickOperation(operator);
       }
     });
-    document.querySelector(".buttons").append(button);
+    calcKeyboard.append(button);
   });
   lowerCalcScreen.innerHTML = calc.getNum();
 };
