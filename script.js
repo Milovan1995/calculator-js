@@ -61,6 +61,7 @@ const initCalculator = () => {
   displayButtons(buttonMethods);
 };
 ////////////////////////////////////////////////
+//Displaying desired numbers and operators on the calculator keyboard
 const displayButtons = (buttonMethods) => {
   const operators = {
     add: "+",
@@ -96,7 +97,7 @@ const displayButtons = (buttonMethods) => {
   lowerCalcScreen.innerHTML = calc.getNum();
 };
 /////////////////////////////////////////////
-//function for the calculator screen
+//handling every button type:
 const onButtonClicks = () => {
   const clickNumber = (numberInfo) => {
     calc.assignNum1(numberInfo);
