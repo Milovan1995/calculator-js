@@ -15,7 +15,7 @@ body {
 }
 
 .calcBody {
-  width: 300px;
+  width: 20rem;
   height: 400px;
   background-color: var(--bgCol);
   display: flex;
