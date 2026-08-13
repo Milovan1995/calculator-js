@@ -1,4 +1,4 @@
-//selecting elements
+
 const upperCalcScreen = document.querySelector(".upperScreen");
 const lowerCalcScreen = document.querySelector(".lowerScreen");
 const calcKeyboard = document.querySelector(".buttons");
